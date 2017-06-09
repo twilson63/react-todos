@@ -1,5 +1,5 @@
 import React from 'react'
-import { map } from 'ramda'
+import { map, equals, always, filter, propEq, cond } from 'ramda'
 import TodoItem from './todo-item'
 
 const TodoList = props => {
@@ -13,7 +13,17 @@ const TodoList = props => {
             toggleCompleted={props.toggleCompleted}
           />
         ),
-        props.todos
+        cond([
+          [equals('all'), always(props.todos)],
+          [
+            equals('active'),
+            always(filter(propEq('completed', false), props.todos))
+          ],
+          [
+            equals('completed'),
+            always(filter(propEq('completed', true), props.todos))
+          ]
+        ])(props.filter)
       )}
     </ul>
   )

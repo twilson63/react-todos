@@ -8,13 +8,31 @@ const Footer = props => {
       </span>
       <ul className="filters">
         <li>
-          <a className="selected" href="#/">All</a>
+          <a
+            className={`${props.filter === 'all' && 'selected'}`}
+            href="#"
+            onClick={e => props.setFilter('all')}
+          >
+            All
+          </a>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <a
+            className={`${props.filter === 'active' && 'selected'}`}
+            href="#"
+            onClick={e => props.setFilter('active')}
+          >
+            Active
+          </a>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <a
+            className={`${props.filter === 'completed' && 'selected'}`}
+            href="#"
+            onClick={e => props.setFilter('completed')}
+          >
+            Completed
+          </a>
         </li>
       </ul>
 

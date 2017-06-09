@@ -23,12 +23,14 @@ class App extends Component {
 
     this.state = {
       counter: 0,
+      filter: 'all',
       todos: []
     }
     this.addTodo = this.addTodo.bind(this)
     this.toggleAllCompleted = this.toggleAllCompleted.bind(this)
     this.toggleCompleted = this.toggleCompleted.bind(this)
     this.clearCompleted = this.clearCompleted.bind(this)
+    this.setFilter = this.setFilter.bind(this)
   }
   addTodo(text) {
     this.setState(
@@ -83,6 +85,11 @@ class App extends Component {
       )(this.state.todos)
     )
   }
+  setFilter(value) {
+    this.setState({
+      filter: value
+    })
+  }
   componentDidMount() {
     this.setState(get())
   }
@@ -93,10 +100,13 @@ class App extends Component {
         <main className="main">
           <ToggleAll toggleAllCompleted={this.toggleAllCompleted} />
           <TodoList
+            filter={this.state.filter}
             todos={this.state.todos}
             toggleCompleted={this.toggleCompleted}
           />
           <Footer
+            setFilter={this.setFilter}
+            filter={this.state.filter}
             remaining={this.remaining()}
             clearCompleted={this.clearCompleted}
           />
