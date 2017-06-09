@@ -11,7 +11,15 @@ const TodoItem = props => {
           checked={props.completed}
         />
         <label>{props.text}</label>
-        <button className="destroy" />
+        <button
+          className="destroy"
+          onClick={e => {
+            e.preventDefault()
+            if (window.confirm('Are you Sure?')) {
+              props.removeTodo(props.id)
+            }
+          }}
+        />
       </div>
     </li>
   )

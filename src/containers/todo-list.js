@@ -11,6 +11,7 @@ const TodoList = props => {
             key={todo.id}
             {...todo}
             toggleCompleted={props.toggleCompleted}
+            removeTodo={props.removeTodo}
           />
         ),
         cond([

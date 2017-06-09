@@ -31,6 +31,7 @@ class App extends Component {
     this.toggleCompleted = this.toggleCompleted.bind(this)
     this.clearCompleted = this.clearCompleted.bind(this)
     this.setFilter = this.setFilter.bind(this)
+    this.removeTodo = this.removeTodo.bind(this)
   }
   addTodo(text) {
     this.setState(
@@ -90,6 +91,15 @@ class App extends Component {
       filter: value
     })
   }
+  removeTodo(id) {
+    this.setState(
+      compose(
+        set,
+        todos => ({ counter: this.state.counter, todos }),
+        reject(propEq('id', id))
+      )(this.state.todos)
+    )
+  }
   componentDidMount() {
     this.setState(get())
   }
@@ -103,6 +113,7 @@ class App extends Component {
             filter={this.state.filter}
             todos={this.state.todos}
             toggleCompleted={this.toggleCompleted}
+            removeTodo={this.removeTodo}
           />
           <Footer
             setFilter={this.setFilter}
