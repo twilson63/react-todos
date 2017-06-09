@@ -8,7 +8,7 @@ const TodoItem = props => {
           className="toggle"
           type="checkbox"
           onChange={e => props.toggleCompleted(props.id, props.completed)}
-          value={props.completed}
+          checked={props.completed}
         />
         <label>{props.text}</label>
         <button className="destroy" />

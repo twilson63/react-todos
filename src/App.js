@@ -12,7 +12,9 @@ import {
   assoc,
   compose,
   map,
-  prop
+  prop,
+  length,
+  reject
 } from 'ramda'
 
 class App extends Component {
@@ -24,7 +26,9 @@ class App extends Component {
       todos: []
     }
     this.addTodo = this.addTodo.bind(this)
+    this.toggleAllCompleted = this.toggleAllCompleted.bind(this)
     this.toggleCompleted = this.toggleCompleted.bind(this)
+    this.clearCompleted = this.clearCompleted.bind(this)
   }
   addTodo(text) {
     this.setState(
@@ -40,6 +44,16 @@ class App extends Component {
       text,
       completed: false
     }
+  }
+  toggleAllCompleted() {
+    this.setState(
+      compose(
+        set,
+        todos => ({ counter: this.state.counter, todos }),
+        map(assoc('completed', true)),
+        prop('todos')
+      )(this.state)
+    )
   }
   toggleCompleted(id, completed) {
     const markComplete = ifElse(
@@ -57,6 +71,18 @@ class App extends Component {
       )(this.state)
     )
   }
+  remaining() {
+    return length(reject(propEq('completed', true), this.state.todos))
+  }
+  clearCompleted() {
+    this.setState(
+      compose(
+        set,
+        todos => ({ counter: this.state.counter, todos }),
+        reject(propEq('completed', true))
+      )(this.state.todos)
+    )
+  }
   componentDidMount() {
     this.setState(get())
   }
@@ -65,12 +91,15 @@ class App extends Component {
       <section className="todoapp">
         <Header addTodo={this.addTodo} />
         <main className="main">
-          <ToggleAll />
+          <ToggleAll toggleAllCompleted={this.toggleAllCompleted} />
           <TodoList
             todos={this.state.todos}
             toggleCompleted={this.toggleCompleted}
           />
-          <Footer />
+          <Footer
+            remaining={this.remaining()}
+            clearCompleted={this.clearCompleted}
+          />
         </main>
       </section>
     )
